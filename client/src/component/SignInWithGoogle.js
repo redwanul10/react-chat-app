@@ -7,6 +7,7 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage}
         console.log(res)
         successLogin(res)
     }
+    const AuthorUrl = "https://www.facebook.com/redwanul10";
     return (
         <div className ="google messageAnimation"style={{textAlign:"center",marginTop:"151px"}}>
             <div onClick={login} style={{marginBottom:"15px"}}>
@@ -21,7 +22,7 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage}
             {loading && <Spinner/>}
             {errorMessage && <div style={{color:"red"}}>{errorMessage}</div>} 
 
-            <div className="author">A Simple Chat App Built in React,Node, & Mongoddb Created By <a href="#">Redwan</a></div>
+            <div className="author">A Simple Chat App Built in React,Node, & Mongoddb Created By <a target="_blank"href={AuthorUrl}>Redwan</a></div>
             <img src="giphy.png" alt=""/>
         </div>
         
