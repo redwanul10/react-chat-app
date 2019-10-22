@@ -362,7 +362,7 @@ export class Chat extends Component{
                     chatLogLoading:false
                 })
             }
-            return sendRequest.data
+            return sendRequest.data ? sendRequest.data : null
     }
 
     sendMsgSeenReq = async(senderId,receiverId) => {
