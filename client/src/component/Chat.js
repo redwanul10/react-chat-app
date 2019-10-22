@@ -54,13 +54,17 @@ export class Chat extends Component{
 
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
+        console.log(fetchChatLogs)
+        
         if(!fetchChatLogs) return;
-
         return this.setState({
             ...this.state,
             collection:fetchChatLogs.chatLogs,
             chatLogLoading:false
-        },()=>this.sortCollections())
+        },()=>{
+            this.sortCollections()
+            console.log(this.state)
+        })
     }
     checkIsMObile= ()=> {
         const isMobileDevice = window.innerWidth < 992
@@ -300,7 +304,7 @@ export class Chat extends Component{
             loginError:"",
             loading:false,
             userObj:sendRequest.data.user||res.profileObj
-        },async()=> await this.fetchAndAddEvent())
+        },async()=> {await this.fetchAndAddEvent()})
         
         socket.emit('set username',sendRequest.data.user)
     
@@ -516,7 +520,7 @@ export class Chat extends Component{
             loading={loading}
             errorMessage={loginError}/>
         )
-        
+        console.log(collection)
         const currentUser = collection.find(singleUser => singleUser.username === receiver.username);
         const currentUserconversation = currentUser ? currentUser.conversation : [];
         const value={
