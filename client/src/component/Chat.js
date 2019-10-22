@@ -81,7 +81,7 @@ export class Chat extends Component{
         }
         
         
-        socket = io();
+        socket = io("https://react-chat-appp.herokuapp.com/");
         
         socket.on('active users',newUser=>{
             let user = this.state.users.findIndex(singleUser=> singleUser.username === newUser.username)
@@ -204,6 +204,7 @@ export class Chat extends Component{
     }
 
     submit = async(e,type='text-msg',gif) => {
+        
         e.preventDefault()
         if(Object.keys(this.state.receiver).length === 0) return alert("Select a User");
         if(!this.state.userObj.username) return alert("username emty");
