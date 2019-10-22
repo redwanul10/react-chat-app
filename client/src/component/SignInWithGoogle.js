@@ -22,7 +22,7 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage}
             {loading && <Spinner/>}
             {errorMessage && <div style={{color:"red"}}>{errorMessage}</div>} 
 
-            <div className="author">A Simple Chat App Built in React,Node, & Mongoddb Created By <a target="_blank"href={AuthorUrl}>Redwan</a></div>
+            <div className="author">A Simple Chat App Built in React,Node, & Mongoddb Created By <a href={AuthorUrl}>Redwan</a></div>
             <img src="giphy.png" alt=""/>
         </div>
         

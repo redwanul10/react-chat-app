@@ -81,7 +81,7 @@ export class Chat extends Component{
         }
         
         
-        socket = io("http://localhost:8000");
+        socket = io();
         
         socket.on('active users',newUser=>{
             let user = this.state.users.findIndex(singleUser=> singleUser.username === newUser.username)
@@ -243,8 +243,11 @@ export class Chat extends Component{
 
     totalUnreadMsg = ()=>{
         const {collection} = this.state
-        const totalUnreadMsg = collection.filter(user => user.read === false)
-        
+        const totalUnreadMsg = collection.filter(user => {
+            if(user.read === false && user.conversation.length> 0) return true;
+            return false
+        })
+
         this.setState({
             ...this.setState,
             totalUnreadMsg:totalUnreadMsg.length
@@ -259,7 +262,10 @@ export class Chat extends Component{
 
             return dateA  > dateB ? -1 : 1; 
         })
-        const totalUnreadMsg = collection.filter(user => user.read === false)
+        const totalUnreadMsg = collection.filter(user => {
+            if(user.read === false && user.conversation.length> 0) return true;
+            return false
+        })
         
         this.setState({
             ...this.setState,
@@ -452,7 +458,7 @@ export class Chat extends Component{
             const lstMsg = fetchMessages.msgs[fetchMessages.msgs.length - 1]
             
             const msgInfo = {
-                read:false,
+                read:true,
                 unReadMsgs : [],
                 name:user.name,
                 username:user.username,

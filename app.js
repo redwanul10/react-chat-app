@@ -7,6 +7,7 @@ const cors = require('cors')
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const GoogleUsers = require('./model/googleUser')
+const path = require('path')
 let users={}
 
 
@@ -14,6 +15,12 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended:true}))
 app.use(cors())
 
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static('client/build'))
+  app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,"client","build","index.html"))
+  })
+}
 
 app.use('/',router)
 
