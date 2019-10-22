@@ -81,7 +81,7 @@ export class Chat extends Component{
         }
         
         
-        socket = io("http://localhost:8000");
+        socket = io("https://react-chat-appp.herokuapp.com");
         
         socket.on('active users',newUser=>{
             let user = this.state.users.findIndex(singleUser=> singleUser.username === newUser.username)
