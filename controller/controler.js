@@ -16,6 +16,8 @@ const addmessage = (req,res)=>{
 
 const chatlogs = (req,res)=>{
     const {userId} = req.query;
+    console.log("message history request received")
+    console.log(userId)
     if(!userId) return res.status(400).send("userId is emty")
     Messages.aggregate([
         {$match:{
@@ -73,6 +75,8 @@ const chatlogs = (req,res)=>{
         }
     ])
     .then(msg=>{
+        if(!msg){console.log("msg is emty")}
+        console.log(msg)
         const chatLogs = []
         msg.forEach(item=>{
             const unReadMsgs = item.message.filter(singleMsg => singleMsg.read !== true)
