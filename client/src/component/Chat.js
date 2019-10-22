@@ -352,6 +352,7 @@ export class Chat extends Component{
             const url = `/chatlogs?userId=${userId}`
             try{
                 sendRequest = await axios.get(url)
+                console.log(sendRequest)
             }catch(err){
 
                 console.log(err)
