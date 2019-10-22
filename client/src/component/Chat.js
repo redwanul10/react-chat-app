@@ -81,7 +81,7 @@ export class Chat extends Component{
         }
         
         
-        socket = io("https://react-chat-appp.herokuapp.com:"+process.env.PORT);
+        socket = io("http://localhost:8000");
         
         socket.on('active users',newUser=>{
             let user = this.state.users.findIndex(singleUser=> singleUser.username === newUser.username)
@@ -362,7 +362,7 @@ export class Chat extends Component{
                     chatLogLoading:false
                 })
             }
-            return sendRequest.data ? sendRequest.data : null
+            return sendRequest.data
     }
 
     sendMsgSeenReq = async(senderId,receiverId) => {
