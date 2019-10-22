@@ -59,7 +59,7 @@ export class Chat extends Component{
         if(!fetchChatLogs) return;
         return this.setState({
             ...this.state,
-            collection:fetchChatLogs.chatLogs,
+            collection:fetchChatLogs.chatLogs ||[],
             chatLogLoading:false
         },()=>{
             this.sortCollections()
