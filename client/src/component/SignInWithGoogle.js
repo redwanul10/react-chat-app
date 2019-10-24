@@ -2,7 +2,7 @@ import React from 'react';
 import GoogleLogin from 'react-google-login'
 import Spinner from './Spinner'
 
-const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage}) => {
+const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage,isMobile}) => {
     const responseGoogle = (res)=>{
         console.log(res)
         successLogin(res)
@@ -16,6 +16,9 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage}
                 buttonText="Sigin with Google"
                 onSuccess={responseGoogle}
                 onFailure={failureLogin}
+                redirectUri="https://react-chat-appp.herokuapp.com"
+                uxMode={isMobile?"redirect":"popup"}
+                isSignedIn={true}
                 />
             </div>
 

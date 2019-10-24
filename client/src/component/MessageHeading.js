@@ -1,11 +1,18 @@
 import React from 'react'
 import MobileMessageIcon from './MessageIcon'
-const MessageHeading = ({receiver,mobile})=>{
-    const user = receiver ?receiver:"welcome"
+import TypingAnimation from './TypingAnimation'
+
+const MessageHeading = ({receiver,mobile,collection})=>{
+    
+    const user = receiver.name ? receiver.name : "welcome"
+    const findReceiver = collection.find(singleUser => singleUser.username === receiver.username)
+    const typing = findReceiver ? findReceiver.typing : false
+
     return(
-        <div>
+        <div className="heading">
             <div style={style.heading}>{user}</div>
             {mobile && <MobileMessageIcon/>}
+            {typing && <TypingAnimation/>}
         </div>                  
     )
 }

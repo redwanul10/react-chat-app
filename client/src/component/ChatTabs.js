@@ -32,10 +32,10 @@ class ChatTabs extends Component {
         return(
             <div>
                  <Tabs selected={this.state.selected} handleChange={this.handleChange}>
-                    <Panel icon="fa fa-envelope"title="Messages">
+                    <Panel icon="fa fa-envelope xMargin"title="Messages">
                         { loading ? <Spinner/>:chatHistory }
                     </Panel>
-                    <Panel fade icon="online"title="Active Users">
+                    <Panel fade icon="online xMargin"title="Active Users">
                         <ActiveUsers/>
                     </Panel>
                     <Panel icon="fa fa-user"title="Account">

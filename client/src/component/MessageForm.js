@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MessageForm = ({submit,msg,changeHandelar,showGiphyModal})=> {
+const MessageForm = ({submit,msg,changeHandelar,showGiphyModal,typingIndicator})=> {
 
     return(
         <div class="bottom"style={style.msgForm}>
@@ -11,6 +11,8 @@ const MessageForm = ({submit,msg,changeHandelar,showGiphyModal})=> {
             placeholder="Enter Message" 
             onChange={event=>changeHandelar(event)}
             style={style.input}
+            onFocus={e=>typingIndicator("typing")}
+            onBlur ={e=>typingIndicator("stopTyping")}
             />
             <button onClick={event =>submit(event)} style={style.button}>submit</button>
 

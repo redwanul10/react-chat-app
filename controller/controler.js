@@ -97,6 +97,7 @@ const chatlogs = (req,res)=>{
                 name        :item.receiver[0].name,
                 unReadMsgs,
                 username    :item.receiver[0].username,
+                typing:false,
                 photo       :item.receiver[0].imageUrl,
                 conversation:item.message
             }

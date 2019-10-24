@@ -4,20 +4,26 @@ import Gif from './Gif'
 const Masseges = React.forwardRef(({msgs,username},ref)=> {
     
     if(!msgs) return <div></div>
-
+    let previousUser = "";
     return(
         <div ref={ref}className="messages scrollBar"style={{margin:"10px 0"}}>
-            {msgs.map(item => 
+            {msgs.map(item =>{
                 
-                <div className={item.anim?"messageAnimation":''}style={{fontSize:"18px",overflow:"hidden"}}>
-                    <img style={username === item.sender ?style.senderImg:style.receiverImg}src={item.senderPhoto} alt=""/>
-                    {
-                        item.type === 'gif'?
-                        <Gif url={item.text} style={username === item.sender ?style.senderGIF:style.receiverGIF}/>:
-                        (<div style={username === item.sender ?style.senderMsg:style.receiverMsg}>{item.text}</div>)
-                    }
-                </div> 
-            )}
+                let hide  = previousUser === item.sender? "hide":"";
+                if(previousUser !== item.sender) previousUser = item.sender
+                
+                return (
+                    <div className={item.anim?"messageAnimation":''}style={{fontSize:"18px",overflow:"hidden"}}>
+                        <img className={hide}style={username === item.sender ?style.senderImg:style.receiverImg}src={item.senderPhoto} alt=""/>
+                        
+                        {
+                            item.type === 'gif'?
+                            <Gif url={item.text} style={username === item.sender ?style.senderGIF:style.receiverGIF}/>:
+                            (<div className="text"style={username === item.sender ?style.senderMsg:style.receiverMsg}>{item.text}</div>)
+                        }
+                    </div> 
+                )
+            })}
         </div>
     )
         

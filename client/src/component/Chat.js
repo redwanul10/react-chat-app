@@ -54,17 +54,13 @@ export class Chat extends Component{
 
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
-        console.log(fetchChatLogs)
-        
         if(!fetchChatLogs) return;
+
         return this.setState({
             ...this.state,
-            collection:fetchChatLogs.chatLogs ||[],
+            collection:fetchChatLogs.chatLogs,
             chatLogLoading:false
-        },()=>{
-            this.sortCollections()
-            console.log(this.state)
-        })
+        },()=>this.sortCollections())
     }
     checkIsMObile= ()=> {
         const isMobileDevice = window.innerWidth < 992
@@ -107,6 +103,13 @@ export class Chat extends Component{
             })
         })
 
+        socket.on("user typing",(userId)=>{
+            this.showTypingIndicator(userId,true)
+        })
+
+        socket.on("stop typing",(userId)=>{
+            this.showTypingIndicator(userId,false)
+        })
         
         socket.on('private',async(message)=>{
             const {collection,receiver,userObj} = this.state
@@ -121,6 +124,7 @@ export class Chat extends Component{
                     read:false,
                     lastUpdated:message.createdAt,
                     unReadMsgs : [],
+                    typing:false,
                     name:message.senderName,
                     username:message.sender,
                     photo:message.senderPhoto,
@@ -173,6 +177,19 @@ export class Chat extends Component{
         })
     }
 
+    showTypingIndicator = (userId,display) =>{
+        const{collection} = this.state
+        const userIndex = collection.findIndex(user => user.username === userId)
+        console.log(userIndex+ " " + userId)
+        if(userIndex !== -1){
+            const receiver= collection[userIndex]
+            receiver.typing = display ? true : false
+            this.setState({
+                ...this.state,
+                collection
+            })
+        }
+    }
     googelSignIn = ()=>{
         this.setState({
             ...this.state,
@@ -278,7 +295,9 @@ export class Chat extends Component{
             totalUnreadMsg:totalUnreadMsg.length
         })
     }
-    onFailureLogin = ()=>{
+    onFailureLogin = (res)=>{
+        const AlertMsg = !res.details? res.error:res.error+" "+res.details
+        alert(AlertMsg)
         this.setState({
             ...this.state,
             loading:false,
@@ -304,7 +323,7 @@ export class Chat extends Component{
             loginError:"",
             loading:false,
             userObj:sendRequest.data.user||res.profileObj
-        },async()=> {await this.fetchAndAddEvent()})
+        },async()=> await this.fetchAndAddEvent())
         
         socket.emit('set username',sendRequest.data.user)
     
@@ -468,6 +487,7 @@ export class Chat extends Component{
                 unReadMsgs : [],
                 name:user.name,
                 username:user.username,
+                typing:false,
                 photo:user.imageUrl,
                 conversation:fetchMessages.msgs
             }
@@ -508,6 +528,17 @@ export class Chat extends Component{
         })
     }
 
+    typingIndicator= (typingState)=>{
+        console.log('focused')
+        const {receiver,userObj} = this.state
+        if(!receiver.username) console.log("user not selected")
+
+        socket.emit(typingState,{
+            receiver:receiver.username,
+            sender  :userObj.username
+        })
+    }
+
     render(){
         const {userObj:{username},collection,receiver,messageArea,mobile,
         msg,authentication,searchGif,gif,chatLogLoading,loading,loginError} = this.state;
@@ -518,11 +549,13 @@ export class Chat extends Component{
             failureLogin = {this.onFailureLogin}
             login={this.googelSignIn} 
             loading={loading}
-            errorMessage={loginError}/>
+            errorMessage={loginError}
+            isMobile={mobile}/>
         )
-        console.log(collection)
+        
         const currentUser = collection.find(singleUser => singleUser.username === receiver.username);
         const currentUserconversation = currentUser ? currentUser.conversation : [];
+        const typing = currentUser? currentUser.type :false
         const value={
             state:this.state,
             setCurrentUser:this.currentUser,
@@ -549,7 +582,7 @@ export class Chat extends Component{
                         </div>
                         <div className="col-xs-6 col-lg-6 offset-lg-0 col-md-10 offset-md-1 col-sm-12 col-xs-12" style={{height:"80%"}}>
                             <div className={` message_area ${messageArea && "Active "} ${mobile && "opacityZero"}`}>
-                                <MessageHeading receiver={receiver.name} mobile={mobile}/>
+                                <MessageHeading receiver={receiver} mobile={mobile} collection={collection}/>
                                 <Masseges msgs={currentUserconversation} username={username} ref={this.Masseges}/>
 
                                 <MessageForm 
@@ -557,6 +590,7 @@ export class Chat extends Component{
                                 changeHandelar={this.changeHandelar}
                                 msg={msg}
                                 showGiphyModal={this.showGiphyModal}
+                                typingIndicator={this.typingIndicator}
                                 />
                                 
                                 {this.state.giphyModal && (

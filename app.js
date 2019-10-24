@@ -50,6 +50,18 @@ io.on('connection',(socket)=>{
     users[message.receiverUsername].emit('private',message)
   })
 
+  socket.on('typing',usernames=>{
+    console.log(socket.username)
+    if(!users[usernames.receiver]) return console.log('user not found socketio')
+    users[usernames.receiver].emit("user typing",usernames.sender)
+  })
+
+  socket.on('stopTyping',usernames=>{
+    console.log(socket.username)
+    if(!users[usernames.receiver]) return console.log('user not found socketio')
+    users[usernames.receiver].emit("stop typing",usernames.sender)
+  })
+
   socket.on('join',(data)=>{
     console.log('joined')
     socket.join(data)
@@ -61,8 +73,8 @@ io.on('connection',(socket)=>{
     GoogleUsers.findOneAndUpdate({username,active:true},{active:false},{new:true},(err,user)=>{
       if(err) return res.status(400).json({err})
       console.log(user)
-      socket.broadcast.emit('delete users',socket.username)
-      delete  users[socket.username];
+      socket.broadcast.emit('delete users',username)
+      delete  users[username];
     })
     
   })
