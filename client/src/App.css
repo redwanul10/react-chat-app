@@ -359,6 +359,9 @@ button:focus, button:active {
       top: 6px;
       left: 34px;
   }
+  .heading .dots {
+    left: 25px;
+  }
   
 }
 
@@ -370,12 +373,22 @@ button:focus, button:active {
   margin-left: 5px;
   background: white;
 }
+
 .online.typeIndicator:nth-child(2) {
   animation-delay:0.3s;
 }
+
 .online.typeIndicator:nth-child(3) {
   animation-delay:0.6s;
 }
+
+.heading{position: relative;}
+.heading .dots{
+    position: absolute;
+    left: 47px;
+    top: 6px;
+}
+
 @keyframes scale{
   0%{
     transform: scale(1);
@@ -416,12 +429,7 @@ button:focus, button:active {
     transform: translateY(0px);
   }
 }
-.heading{position: relative;}
-.heading .dots{
-    position: absolute;
-    left: 47px;
-    top: 6px;
-}
+
 
 
 

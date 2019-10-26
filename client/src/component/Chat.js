@@ -62,6 +62,7 @@ export class Chat extends Component{
             chatLogLoading:false
         },()=>this.sortCollections())
     }
+
     checkIsMObile= ()=> {
         const isMobileDevice = window.innerWidth < 992
         this.setState({
@@ -69,6 +70,12 @@ export class Chat extends Component{
             mobile:isMobileDevice ? true :false
         })
         
+    }
+
+    playNotificaionMusic =()=>{
+        const audio = new Audio('sharp.mp3');
+        audio.volume = 0.3
+        audio.play()
     }
     
     componentDidMount = ()=>{
@@ -161,6 +168,7 @@ export class Chat extends Component{
                 ...this.state,
                 collection,
             },()=>{
+                this.playNotificaionMusic()
                 this.autoScrollToBottom()
                 setTimeout(()=>this.disableMessageAnim(userIndex),1000)
             })
