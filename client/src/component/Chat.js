@@ -543,7 +543,13 @@ export class Chat extends Component{
         })
     }
     send = ()=>{
-        notificationFunc(this.state.userObj.username)
+        Notification.requestPermission()
+        .then(result=>{
+            console.log(result)
+            if(result === "granted"){
+                notificationFunc(this.state.userObj.username)
+            }
+        })
     }
     render(){
         const {userObj:{username},collection,receiver,messageArea,mobile,
