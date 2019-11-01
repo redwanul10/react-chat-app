@@ -7,13 +7,26 @@ const cors = require('cors')
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const GoogleUsers = require('./model/googleUser')
+
+const sendNotification = require('./sendNotification')
 const path = require('path')
+const push = require('web-push')
 let users={}
 
 
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended:true}))
 app.use(cors())
+
+//console.log(push.generateVAPIDKeys())
+
+const vapId = {
+  publicKey: 'BEXR9kZ9no82gAb_FXeZLwDBKb1omIUTOU_hX1pzhswotiDEbwp3Obx_XavhpJ3vw2dzjOzfZxQGAGPYhA2KWd4',
+  privateKey: 'z1jrJwONIaoVjTlCF_d6YCoyk0NBfyN00rkSlk6Uu7c'
+}
+push.setVapidDetails("mailto:redwanulislam12@gmail.com",vapId.publicKey,vapId.privateKey)
+
+
 
 if(process.env.NODE_ENV === "production"){
   app.use(express.static('client/build'))
@@ -46,7 +59,11 @@ io.on('connection',(socket)=>{
   })
 
   socket.on('private',message =>{
-    if(!users[message.receiverUsername]) return console.log("user login msg sent to database")
+      
+    if(!users[message.receiverUsername]){ 
+      sendNotification(message.receiverUsername,message.senderName)
+      return console.log("user login msg sent to database")
+    }
     users[message.receiverUsername].emit('private',message)
   })
 

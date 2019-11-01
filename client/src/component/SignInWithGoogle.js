@@ -8,6 +8,8 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage,
         successLogin(res)
     }
     const AuthorUrl = "https://www.facebook.com/redwanul10";
+    const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const uxMode = mobile?"redirect":"popup"
     return (
         <div className ="google messageAnimation"style={{textAlign:"center",marginTop:"151px"}}>
             <div onClick={login} style={{marginBottom:"15px"}}>
@@ -16,8 +18,8 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage,
                 buttonText="Sigin with Google"
                 onSuccess={responseGoogle}
                 onFailure={failureLogin}
-                redirectUri="https://react-chat-appp.herokuapp.com"
-                uxMode={isMobile?"redirect":"popup"}
+                redirectUri="http://localhost:3000/"
+                uxMode={uxMode}
                 isSignedIn={true}
                 />
             </div>

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {testing,readmessage,chatlogs,register,getmessages,addmessage} = require('../controller/controler')
+const {subscribe,readmessage,chatlogs,register,getmessages,addmessage} = require('../controller/controler')
 
 // This is for Chat App
 
@@ -13,7 +13,7 @@ router.post('/register', register)
 
 router.put('/readmessage', readmessage)
 
-router.get('/testing',testing)
+router.post('/subscribe',subscribe)
 
 
 

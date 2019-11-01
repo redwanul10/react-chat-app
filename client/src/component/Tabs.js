@@ -7,7 +7,7 @@ const Tabs =(props)=>{
                 {props.children.map((elem,index)=>{
                     let style = index == props.selected.index ? 'selected': '';
                     return <li className={`${style}`} key={index} onClick={e=>props.handleChange({index,title:elem.props.title})}>
-                    <i class={`${elem.props.icon} icon ${elem.props.fade?'now':''}`}></i>
+                    <i className={`${elem.props.icon} icon ${elem.props.fade?'now':''}`}></i>
                     {elem.props.title}
                     </li>
                 })}

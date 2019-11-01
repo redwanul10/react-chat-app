@@ -7,6 +7,7 @@ import ChatTabs from './ChatTabs'
 import axios from 'axios'
 import SignInWithGoogle from './SignInWithGoogle'
 import GiphyModal from './GiphyModal'
+import notificationFunc from '../notification'
 
 
 let socket;
@@ -45,12 +46,7 @@ export class Chat extends Component{
 
     fetchAndAddEvent = async()=> {
         
-        const MassegesElem = this.Masseges.current
-        MassegesElem.addEventListener('scroll',()=>{
-                if(MassegesElem.scrollTop === 0){
-                    console.log('fetching old messages')
-                }
-        })
+        this.send();
 
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
@@ -86,7 +82,7 @@ export class Chat extends Component{
         document.body.onbeforeunload= ()=>{
             socket.emit('logout',this.state.userObj.username)
         }
-        
+        //window.addEventListener('load',this.send)
         
         socket = io("https://react-chat-appp.herokuapp.com");
         
@@ -546,7 +542,9 @@ export class Chat extends Component{
             sender  :userObj.username
         })
     }
-
+    send = ()=>{
+        notificationFunc(this.state.userObj.username)
+    }
     render(){
         const {userObj:{username},collection,receiver,messageArea,mobile,
         msg,authentication,searchGif,gif,chatLogLoading,loading,loginError} = this.state;
@@ -563,7 +561,6 @@ export class Chat extends Component{
         
         const currentUser = collection.find(singleUser => singleUser.username === receiver.username);
         const currentUserconversation = currentUser ? currentUser.conversation : [];
-        const typing = currentUser? currentUser.type :false
         const value={
             state:this.state,
             setCurrentUser:this.currentUser,
@@ -616,7 +613,6 @@ export class Chat extends Component{
                         </div>
                     </div>
                 </div>
-                
             </ChatData.Provider>
         )
     }

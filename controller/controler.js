@@ -1,5 +1,7 @@
 const GoogleUser = require('../model/googleUser')
 const Messages = require('../model/messages')
+const push = require('web-push')
+const Subscribtion = require('../model/subscribtion')
 
 
   // This is for Chat app
@@ -76,7 +78,7 @@ const chatlogs = (req,res)=>{
     ])
     .then(msg=>{
         if(!msg){console.log("msg is emty")}
-        console.log(msg)
+        
         const chatLogs = []
         msg.forEach(item=>{
             const unReadMsgs = item.message.filter(singleMsg => singleMsg.read !== true)
@@ -90,7 +92,7 @@ const chatlogs = (req,res)=>{
             }else{
                     read = false;
             }
-            console.log(message)
+            
             const chatLog ={
                 read,
                 lastUpdated :message.createdAt,
@@ -103,18 +105,10 @@ const chatlogs = (req,res)=>{
             }
             chatLogs.push(chatLog)
         })
-        console.log(chatLogs)
+        
         return res.status(200).json({chatLogs})
     })
     .catch(err=>res.status(400).json(err))
-}
-
-const saveUser = (req,res,userDetails) =>{
-    const user = new GoogleUser(userDetails);
-
-    user.save().then(user=>{
-        return res.status(200).json({user})
-    }).catch(err=> res.status(400).json({err}))
 }
 
 
@@ -180,76 +174,35 @@ const readmessage = (req,res)=>{
     },{read:true},(err,msg)=>{
         if(err) return res.status(400).json({err})
         if(!msg || msg === null) return res.status(400).json({err:'msg not found'})
-        console.log(msg)
+        
         return res.status(200).json({msg})
     })
 }
 
 
-const testing = (req,res)=> {
-    const userId = "106244819200754919898"
-    Messages.aggregate([
-        {$match:{
-            $or:[
-                { sender: userId },
-                { receiverUsername: userId }
-            ]
-        }},
-        {$sort:{createdAt:-1}},
-        //{$limit:20},
-        {$sort:{createdAt:1}},
-        {$group:{"_id":{
-            "last_message_between":{
-                $cond:[
-                    {
-                        $gt:[
-                        {$substr:["$receiver",0,1]},
-                        {$substr:["$senderName",0,1]}]
-                    },
-                    {$concat:["$receiver"," and ","$senderName"]},
-                    {$concat:["$senderName"," and ","$receiver"]}
-                ]
-            },
-            "receiverId":{
-                $cond:[
-                    {
-                        $eq:["$sender",userId]
-                    },
-                    {$concat:["$receiverUsername"]},
-                    {$concat:["$sender"]}
-                ]
-            },
-            
-            },
-          
-            "message":{$first:"$$ROOT"},
-            "lastDate":{$last:"$$ROOT"}
+const subscribe = (req,res)=>{
+    console.log(req.body)
+    const {subscription,username} = req.body
+    if(!subscription.endpoint || !username) return res.status(400).send("subscription or username is emty")
+
+    Subscribtion.findOneAndUpdate({username},{
+        subscription:{
+            endpoint:subscription.endpoint,
+            keys:{
+                auth    :   subscription.keys.auth,
+                p256dh  :   subscription.keys.p256dh
             }
         },
-        {
-            $lookup:
-              {
-                from: "googleusers",
-                localField: "_id.receiverId",
-                foreignField: "username",
-                as: "receiver"
-              }
-        },
-        {
-            $project:{
-                "_id":1,
-                "message":1,
-                "receiver.imageUrl":1,
-                "receiver.name":1,
-                "lastDate.createdAt":1
-            }
-        }
-    ])
-    .then(data=> res.status(200).json({data}))
-    .catch(err =>  res.status(400).json({err}))
+        username,
+    },{new:true,upsert:true},(err,notificationToken)=>{
+        console.log(err)
+        if(err) return res.status(400).send("subscription or username is emty") 
+        console.log(notificationToken)
+        return res.status(200).json({notificationToken})
+    })
+
+    
 }
 
 
-
-
-module.exports = {testing,readmessage,chatlogs,register,getmessages,addmessage}
+module.exports = {subscribe,readmessage,chatlogs,register,getmessages,addmessage}
