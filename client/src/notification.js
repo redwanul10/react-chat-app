@@ -13,12 +13,13 @@ const notification = async(username)=>{
     // Register Push
     console.log("Registering Push...");
     console.log("get sub")
-    const getSub = await register.pushManager.getSubscription()
+    const sw     = await navigator.serviceWorker.ready
+    const getSub = await sw.pushManager.getSubscription()
     console.log(getSub)
 
   if(!getSub){  
 
-      const subscription = await register.pushManager.subscribe({
+      const subscription = await sw.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey:urlBase64ToUint8Array(publicKey)
           
