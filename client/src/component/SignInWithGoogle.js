@@ -18,7 +18,7 @@ const SignInWithGoogle = ({successLogin,login,loading,failureLogin,errorMessage,
                 buttonText="Sigin with Google"
                 onSuccess={responseGoogle}
                 onFailure={failureLogin}
-                redirectUri="http://localhost:3000/"
+                redirectUri="https://react-chat-appp.herokuapp.com/"
                 uxMode={uxMode}
                 isSignedIn={true}
                 />

@@ -46,7 +46,7 @@ export class Chat extends Component{
 
     fetchAndAddEvent = async()=> {
         
-        this.send();
+        this.send()
 
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
@@ -84,7 +84,7 @@ export class Chat extends Component{
         }
         //window.addEventListener('load',this.send)
         
-        socket = io("https://react-chat-appp.herokuapp.com");
+        socket = io("https://react-chat-appp.herokuapp.com/");
         
         socket.on('active users',newUser=>{
             let user = this.state.users.findIndex(singleUser=> singleUser.username === newUser.username)
@@ -612,6 +612,7 @@ export class Chat extends Component{
                             </div>
                         </div>
                     </div>
+                    <div onClick={this.send}>NOTIFY</div>
                 </div>
             </ChatData.Provider>
         )
