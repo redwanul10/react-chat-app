@@ -47,7 +47,8 @@ export class Chat extends Component{
     fetchAndAddEvent = async()=> {
         
         await this.send()
-
+        console.log("send finished")
+        
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
         if(!fetchChatLogs) return;
@@ -542,15 +543,13 @@ export class Chat extends Component{
             sender  :userObj.username
         })
     }
-    send = ()=>{
+    send = async()=>{
         
-        Notification.requestPermission()
-        .then(result=>{
-            console.log(result)
-            if(result === "granted"){
-                notificationFunc(this.state.userObj.username)
-            }
-        })
+        const result = await Notification.requestPermission()
+        console.log(result)
+        if(result === "granted"){
+            await notificationFunc(this.state.userObj.username)
+         }
     }
     render(){
         const {userObj:{username},collection,receiver,messageArea,mobile,
