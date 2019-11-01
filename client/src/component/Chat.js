@@ -542,8 +542,8 @@ export class Chat extends Component{
             sender  :userObj.username
         })
     }
-    send = (e)=>{
-        e.preventDefault()
+    send = (event)=>{
+        event.preventDefault();
         Notification.requestPermission()
         .then(result=>{
             console.log(result)
@@ -592,7 +592,7 @@ export class Chat extends Component{
                                 <div className="message_count">{this.state.totalUnreadMsg}</div>
                             )}
 
-                             <a onClick={e=>this.send(e)}>NOTIFY</a>
+                             <a onClick={event=>this.send(event)}>NOTIFY</a>
                 
                         </div>
                         <div className="col-xs-6 col-lg-6 offset-lg-0 col-md-10 offset-md-1 col-sm-12 col-xs-12" style={{height:"80%"}}>
