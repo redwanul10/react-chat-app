@@ -46,7 +46,7 @@ export class Chat extends Component{
 
     fetchAndAddEvent = async()=> {
         
-        this.send()
+        await this.send()
 
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
