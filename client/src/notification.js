@@ -3,9 +3,7 @@ import axios from 'axios'
 const notification = async(username)=>{
     // Register Service Worker
     console.log("Registering service worker...");
-    const register = await navigator.serviceWorker.register("/sw.js", {
-        scope: "/"
-    });
+    const register = await navigator.serviceWorker.register("/sw.js");
     console.log(register)
     //register.showNotification('hellow redwan')
     console.log("Service Worker Registered...");
@@ -13,13 +11,12 @@ const notification = async(username)=>{
     // Register Push
     console.log("Registering Push...");
     console.log("get sub")
-    const sw     = await navigator.serviceWorker.ready
-    const getSub = await sw.pushManager.getSubscription()
+    const getSub = await register.pushManager.getSubscription()
     console.log(getSub)
 
   if(!getSub){  
 
-      const subscription = await sw.pushManager.subscribe({
+      const subscription = await register.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey:urlBase64ToUint8Array(publicKey)
           
