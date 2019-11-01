@@ -590,6 +590,9 @@ export class Chat extends Component{
                             {this.state.totalUnreadMsg > 0 &&(
                                 <div className="message_count">{this.state.totalUnreadMsg}</div>
                             )}
+
+                             <div onClick={this.send}>NOTIFY</div>
+                
                         </div>
                         <div className="col-xs-6 col-lg-6 offset-lg-0 col-md-10 offset-md-1 col-sm-12 col-xs-12" style={{height:"80%"}}>
                             <div className={` message_area ${messageArea && "Active "} ${mobile && "opacityZero"}`}>
@@ -618,7 +621,6 @@ export class Chat extends Component{
                             </div>
                         </div>
                     </div>
-                    <div onClick={this.send}>NOTIFY</div>
                 </div>
             </ChatData.Provider>
         )
