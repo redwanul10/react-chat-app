@@ -29,6 +29,6 @@ self.addEventListener('notificationclick', function(event) {
   event.notification.close();
 
   event.waitUntil(
-    clients.openWindow('https://react-chat-appp-herokuapp.com')
+    clients.openWindow('https://react-chat-appp.herokuapp.com/')
   );
 });
