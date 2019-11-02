@@ -544,12 +544,15 @@ export class Chat extends Component{
         })
     }
     send = async()=>{
-        
-        const result = await Notification.requestPermission()
-        console.log(result)
-        if(result === "granted"){
-            await notificationFunc(this.state.userObj.username)
-         }
+        try{
+            const result = await Notification.requestPermission()
+            console.log(result)
+            if(result === "granted"){
+                await notificationFunc(this.state.userObj.username)
+             }
+        }.catch(err){
+            console.log(err)
+        }
     }
     render(){
         const {userObj:{username},collection,receiver,messageArea,mobile,
