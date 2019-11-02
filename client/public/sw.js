@@ -1,4 +1,5 @@
 console.log("Service Worker Loaded...");
+//service worker
 
 self.addEventListener('install', function(event) {
   // The promise that skipWaiting() returns can be safely ignored.
