@@ -552,6 +552,7 @@ export class Chat extends Component{
              }
         }catch(err){
             console.log(err)
+            return this.send();
         }
     }
     render(){
