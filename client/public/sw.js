@@ -2,7 +2,8 @@ console.log("Service Worker Loaded...");
 
 self.addEventListener('install', function(event) {
   // The promise that skipWaiting() returns can be safely ignored.
-  self.skipWaiting();
+  //self.skipWaiting();
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener("push", e => {
