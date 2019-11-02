@@ -583,6 +583,7 @@ export class Chat extends Component{
                 <div className={`container  ${mobile && "fixedHeight"}`}>
                     <div className="row">
                         <div className="col-xl-5 col-lg-6 offset-lg-0 col-md-10 offset-md-1 col-sm-12 col-xs-12 no_padding">
+
                             <ChatTabs chatLog={collection} 
                             fetchChatLogs={this.fetchChatLogs}
                             username={username}
@@ -595,14 +596,10 @@ export class Chat extends Component{
                                 <div className="message_count">{this.state.totalUnreadMsg}</div>
                             )}
 
-                             <a onClick={event=>{
-                                event.preventDefault()
-                                this.send()
-                             }}>NOTIFY</a>
-                
                         </div>
                         <div className="col-xs-6 col-lg-6 offset-lg-0 col-md-10 offset-md-1 col-sm-12 col-xs-12" style={{height:"80%"}}>
                             <div className={` message_area ${messageArea && "Active "} ${mobile && "opacityZero"}`}>
+
                                 <MessageHeading receiver={receiver} mobile={mobile} collection={collection}/>
                                 <Masseges msgs={currentUserconversation} username={username} ref={this.Masseges}/>
 
