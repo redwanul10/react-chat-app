@@ -12,7 +12,7 @@ self.addEventListener("push", e => {
   console.log("Push Recieved...");
   self.registration.showNotification(data.title, {
     body: data.body,
-     icon: "https://image.ibb.co/frYOFd/tmlogo.png"
+    icon:"/notification.png"
   });
 });
 
