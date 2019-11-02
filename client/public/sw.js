@@ -14,9 +14,9 @@ self.addEventListener("push", e => {
   });
 });
 
-self.addEventListener('activate', async (event) => {
+self.addEventListener('activate', (event) => {
     
-    //event.waitUntil(clients.claim());
+    event.waitUntil(clients.claim());
     // This will be called only once when the service worker is activated.
     console.log('service worker activate')
 })
