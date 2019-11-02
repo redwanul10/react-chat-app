@@ -13,8 +13,6 @@ self.addEventListener("push", e => {
   self.registration.showNotification(data.title, {
     body: data.body,
     icon:"/notification.png",
-    vibrate: [100, 50, 100],
-    badge:"/message.png"
   });
 });
 
