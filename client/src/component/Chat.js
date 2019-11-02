@@ -550,7 +550,7 @@ export class Chat extends Component{
             if(result === "granted"){
                 await notificationFunc(this.state.userObj.username)
              }
-        }.catch(err){
+        }catch(err){
             console.log(err)
         }
     }
