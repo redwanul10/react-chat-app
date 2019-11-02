@@ -56,7 +56,7 @@ export class Chat extends Component{
             chatLogLoading:false
         },()=>{
             this.sortCollections()
-            await this.send()
+            this.send()
             console.log("send finished")
         })
     }
