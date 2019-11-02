@@ -11,7 +11,8 @@ self.addEventListener("push", e => {
   console.log(e.data)
   console.log("Push Recieved...");
   self.registration.showNotification(data.title, {
-    body: data.body
+    body: data.body,
+     icon: "http://image.ibb.co/frYOFd/tmlogo.png"
   });
 });
 
