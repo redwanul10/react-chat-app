@@ -46,9 +46,6 @@ export class Chat extends Component{
 
     fetchAndAddEvent = async()=> {
         
-        await this.send()
-        console.log("send finished")
-        
         const {userObj} = this.state;
         const fetchChatLogs = await this.fetchChatLogs(userObj.username)
         if(!fetchChatLogs) return;
@@ -57,7 +54,11 @@ export class Chat extends Component{
             ...this.state,
             collection:fetchChatLogs.chatLogs,
             chatLogLoading:false
-        },()=>this.sortCollections())
+        },()=>{
+            this.sortCollections()
+            await this.send()
+            console.log("send finished")
+        })
     }
 
     checkIsMObile= ()=> {
